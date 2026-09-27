@@ -55,5 +55,16 @@ class InputTests(unittest.TestCase):
                 garageband.prepare_midi(source, Path(tmp) / "song.mid")
 
 
+class ExportScriptTests(unittest.TestCase):
+    def test_metronome_is_disabled_before_export_menu_opens(self):
+        script = (MODULE_PATH.parent / "export.applescript").read_text(encoding="utf-8")
+        disable_index = script.index("click metronomeControl")
+        export_index = script.index("set clickedExportItem to false")
+        self.assertLess(disable_index, export_index)
+        self.assertIn('metronomeText contains "节拍器"', script)
+        self.assertIn('metronomeText contains "Metronome"', script)
+        self.assertIn('error "GarageBand metronome control not found"', script)
+
+
 if __name__ == "__main__":
     unittest.main()

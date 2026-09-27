@@ -4,6 +4,8 @@
 
 由 Clavis 制作，以 [MIT License](LICENSE) 开源。
 
+导出前会自动关闭 GarageBand 节拍器，避免咔哒声混进成品。
+
 ## 已知可用环境
 
 - macOS 26
@@ -53,6 +55,7 @@ chmod +x install.sh garageband
 - `--force-close` 会不保存关闭当前库乐队工程，只能在确认安全后使用。
 - 工具不会删除或移动任何 `.band` 工程。
 - 导出时使用一次性的随机文件名，并检查创建时间，避免捞到同名旧文件。
+- 导出前必须找到并关闭节拍器控件；如果 GarageBand 改版导致控件无法识别，工具会报错停止，不会悄悄导出带节拍器的成品。
 
 ## 作为 Claude Code skill 使用
 

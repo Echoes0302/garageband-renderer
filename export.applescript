@@ -13,6 +13,31 @@ on run argv
 	delay 0.8
 	tell application "System Events"
 		tell process "GarageBand"
+			-- GarageBand may enable the metronome by default, and its click is included
+			-- in exported audio. Find the control by accessibility text and turn it off.
+			set metronomeControl to missing value
+			try
+				repeat with candidateCheckbox in (checkboxes of group 1 of window 1)
+					set metronomeText to ""
+					try
+						set metronomeText to metronomeText & " " & (help of candidateCheckbox as text)
+					end try
+					try
+						set metronomeText to metronomeText & " " & (description of candidateCheckbox as text)
+					end try
+					try
+						set metronomeText to metronomeText & " " & (name of candidateCheckbox as text)
+					end try
+					if metronomeText contains "节拍器" or metronomeText contains "Metronome" or metronomeText contains "metronome" then
+						set metronomeControl to candidateCheckbox
+						exit repeat
+					end if
+				end repeat
+			end try
+			if metronomeControl is missing value then error "GarageBand metronome control not found"
+			if (value of metronomeControl) is 1 then click metronomeControl
+			delay 0.3
+
 			set clickedExportItem to false
 			repeat with menuName in shareMenus
 				if clickedExportItem then exit repeat

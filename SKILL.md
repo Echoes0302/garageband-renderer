@@ -28,3 +28,5 @@ Available mix presets: `none`, `dry`, `room`, `hall`, `oldrecord`, `musicbox`.
 If GarageBand is already open, stop and ask the user to close or save their project. Only use `--force-close` after the user confirms that closing the current GarageBand project without saving is safe.
 
 The export step uses macOS Accessibility automation. The terminal or agent host running this tool must have Accessibility permission.
+
+Before exporting, the script locates GarageBand's metronome control and turns it off so the click is not rendered into the MP3. If the control cannot be identified, treat that as an export failure rather than bypassing the check.
